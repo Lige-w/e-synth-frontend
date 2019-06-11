@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Icon }
+import { Icon } from 'semantic-ui-react'
 import Pad from '../components/Pad'
 
 class PadContainer extends Component {
