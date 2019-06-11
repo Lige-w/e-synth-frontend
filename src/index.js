@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './styles/Pad.css'
+import './styles/PadContainer.css'
+import './styles/MasterControls.css'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
