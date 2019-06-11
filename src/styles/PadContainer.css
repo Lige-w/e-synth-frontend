@@ -2,3 +2,11 @@
     display: flex;
     overflow: scroll;
 }
+
+.icon.add {
+    position: absolute;
+    top: 2vh;
+    right: 5vw;
+    z-index: 3;
+    color: black
+}

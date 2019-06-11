@@ -14,6 +14,7 @@ class PadContainer extends Component {
         return (
             <div id='pad-container'>
                 {padComponents}
+                <Icon name='long arrow alternate left' size='big' />
             </div>
         );
     }
