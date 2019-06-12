@@ -8,12 +8,13 @@ const PadContainer = () => {
 
     const createPad = () => {
         const gainNode = Audio.context.createGain()
+        gainNode.connect(Audio.masterGainNode)
         gainNode.gain.value = 0
         setPads([...pads, gainNode])
     }
 
-    const padComponents = pads.map(pad => (
-        <Pad pad={pad} />
+    const padComponents = pads.map((pad, i) => (
+        <Pad key={i} pad={pad} />
     ))
 
     return (

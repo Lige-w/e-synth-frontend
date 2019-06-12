@@ -1,13 +1,16 @@
-import React, {Component} from 'react'
+import React from 'react'
+import MasterGain from '../components/MasterGain'
 
-class MasterControls extends Component {
-    render() {
-        return (
-            <div id='master-controls'>
-                These are the master controls
-            </div>
-        );
-    }
- }
+const MasterControls = ({masterGain, setMasterGain}) => {
 
- export default MasterControls
+    return (
+        <div id='master-controls'>
+            <MasterGain
+                masterGain={masterGain}
+                setMasterGain={setMasterGain}
+            />
+        </div>
+    );
+}
+
+export default MasterControls
