@@ -7,12 +7,13 @@ import Audio from './helpers/Audio'
 class App extends Component {
 
     state = {
-        masterGain: Audio.masterGainNode.gain.value
+        masterGain: 0
     }
 
     componentDidMount() {
         Audio.masterGainNode.connect(Audio.context.destination)
-        Audio.masterGainNode.gain.value = 1
+        Audio.masterGainNode.gain.value = .5
+        this.setState({masterGain: Audio.masterGainNode.gain.value})
     }
 
     setMasterGain = (e) => {
