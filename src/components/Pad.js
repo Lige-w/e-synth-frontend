@@ -6,7 +6,7 @@ import OscillatorControls from './OscillatorControls'
 
 
 
-const Pad = ({pad}) => {
+const Pad = ({pad: {pad, attackGain}}) => {
 
     const [keyName, setKeyName] = useState('a')
     const [gain, setGain] = useState(pad.gain.value)
@@ -33,8 +33,12 @@ const Pad = ({pad}) => {
     const addOscillator = () => {
         const oscillator = Audio.context.createOscillator()
         const oscillatorGain = Audio.context.createGain()
+        // const attackOscillatorGain = Audio.context.createGain()
+        // attackOscillatorGain.gain.value = 0
+        // attackOscillatorGain.connect(pad)
         oscillatorGain.gain.value = .5
         oscillator.connect(oscillatorGain)
+        oscillatorGain.connect(pad)
         oscillator.start(0)
 
         const oscillatorObject = {
@@ -44,6 +48,7 @@ const Pad = ({pad}) => {
             oscillator: oscillator,
             frequency: oscillator.frequency.value,
             gainNode: oscillatorGain,
+            // attackGainNode: attackOscillatorGain,
             gain: oscillatorGain.gain.value,
             type: oscillator.type
         }
@@ -86,17 +91,18 @@ const Pad = ({pad}) => {
     useEffect(updateOscillators, [selectedOscillator])
 
 
-    const connectOscillator = (oscillator) => {
-        oscillator.connect(pad)
-    }
-
-    const disconnectOscillator = (oscillator) => {
-        oscillator.disconnect(pad)
-    }
+    // const connectOscillator = (oscillator) => {
+    //     oscillator.gain.value = 0
+    //     oscillator.gain.setTargetAtTime(1, Audio.context.currentTime, 0.015)
+    // }
+    //
+    // const disconnectOscillator = (oscillator) => {
+    //     oscillator.gain.setTargetAtTime(0, Audio.context.currentTime, 0.015)
+    // }
 
     const play = () => {
         if(!isPlaying) {
-            oscillators.forEach(oscillator => connectOscillator(oscillator.gainNode))
+            attackGain.gain.setTargetAtTime(1, Audio.context.currentTime, 0.001)
             setIsPlaying(true)
         }
     }
@@ -112,7 +118,7 @@ const Pad = ({pad}) => {
 
     const pause = () => {
         if(isPlaying) {
-            oscillators.forEach(oscillator => disconnectOscillator(oscillator.gainNode))
+            attackGain.gain.setTargetAtTime(0, Audio.context.currentTime, 0.001)
             setIsPlaying(false)
         }
     }

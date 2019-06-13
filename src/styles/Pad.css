@@ -9,27 +9,3 @@
     border: solid 1px #808080
 }
 
-.pad .gain-container {
-    position: relative;
-    top: 190px;
-    left: 145px;
-}
-
-.pad .gain-container p {
-    position: relative;
-    top: -50px;
-    left: 35px
-}
-
-.pad .gain-container .gain-slider {
-    transform: rotate(270deg);
-}
-
-.pad-label {
-    background: #2D2D2D;
-    box-shadow: inset 0 0 10px -3px black;
-    border-radius: 2px;
-    padding: 2px;
-    width: fit-content;
-}
-
