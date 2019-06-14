@@ -19,7 +19,8 @@ const Register = () => {
             }
         }
 
-        Fetch.POST(Fetch.USERS_URL, body).then(console.log)
+        Fetch.POST(Fetch.USERS_URL, body)
+            .then(console.log)
     }
 
     return (

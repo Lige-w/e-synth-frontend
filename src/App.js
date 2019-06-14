@@ -17,9 +17,9 @@ const App = () => {
             <Route exact path='/' render={() => (
                 !currentUser ?
                     <Redirect to='/login' /> :
-                    <UserSetup currentUser={currentUser}/>
+                    <UserSetup />
             ) }/>
-            <Route exact path='/login' component={Login}/>
+            <Route exact path='/login' render={() => <Login setCurrentUser={setCurrentUser}/>}/>
             <Route exact path='/register' component={Register} />
         </Switch>
     )

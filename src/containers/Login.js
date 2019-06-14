@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 
 import Fetch from '../helpers/Fetch'
 
-const Login = () => {
+const Login = ({setCurrentUser}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
@@ -13,7 +13,15 @@ const Login = () => {
             user: {username: username, password: password}
         }
 
-        Fetch.POST(Fetch.LOGIN_URL, body).then(console.log)
+        Fetch.POST(Fetch.LOGIN_URL, body)
+            .then(data => {
+                if (!data.error){
+                    setCurrentUser(data.user)
+                    localStorage.setItem('token', data.jwt)
+                } else {
+                    alert('Incorrect username or password')
+                }
+            })
     }
 
     return (
