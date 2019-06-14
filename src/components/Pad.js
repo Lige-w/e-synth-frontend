@@ -3,9 +3,6 @@ import Audio from '../helpers/Audio'
 import { Button, Select, Icon } from 'semantic-ui-react'
 import OscillatorControls from './OscillatorControls'
 
-
-
-
 const Pad = ({pad: {pad, attackGain}}) => {
 
     const [keyName, setKeyName] = useState('a')
@@ -33,9 +30,6 @@ const Pad = ({pad: {pad, attackGain}}) => {
     const addOscillator = () => {
         const oscillator = Audio.context.createOscillator()
         const oscillatorGain = Audio.context.createGain()
-        // const attackOscillatorGain = Audio.context.createGain()
-        // attackOscillatorGain.gain.value = 0
-        // attackOscillatorGain.connect(pad)
         oscillatorGain.gain.value = .5
         oscillator.connect(oscillatorGain)
         oscillatorGain.connect(pad)
@@ -48,7 +42,6 @@ const Pad = ({pad: {pad, attackGain}}) => {
             oscillator: oscillator,
             frequency: oscillator.frequency.value,
             gainNode: oscillatorGain,
-            // attackGainNode: attackOscillatorGain,
             gain: oscillatorGain.gain.value,
             type: oscillator.type
         }
@@ -90,16 +83,6 @@ const Pad = ({pad: {pad, attackGain}}) => {
 
     useEffect(updateOscillators, [selectedOscillator])
 
-
-    // const connectOscillator = (oscillator) => {
-    //     oscillator.gain.value = 0
-    //     oscillator.gain.setTargetAtTime(1, Audio.context.currentTime, 0.015)
-    // }
-    //
-    // const disconnectOscillator = (oscillator) => {
-    //     oscillator.gain.setTargetAtTime(0, Audio.context.currentTime, 0.015)
-    // }
-
     const play = () => {
         if(!isPlaying) {
             attackGain.gain.setTargetAtTime(1, Audio.context.currentTime, 0.001)
@@ -109,6 +92,7 @@ const Pad = ({pad: {pad, attackGain}}) => {
 
     const handleKeyDown = (e) => {
         if (e.key === keyName) {play()}
+
     }
 
     useEffect(() => {
@@ -135,9 +119,11 @@ const Pad = ({pad: {pad, attackGain}}) => {
 
     return (
         <div className='pad' >
-            <Button onClick={addOscillator} >New Oscillator</Button>
-            <Button onClick={allowKeyTriggerChange}>Key: {keyName}</Button>
+            <Button className='new-oscillator' onClick={addOscillator} >New Oscillator</Button>
+            <Button className='key-select' onClick={allowKeyTriggerChange}>Key: {keyName}</Button>
             <Select
+                placeholder='Add an oscillator...'
+                className='oscillator-select'
                 fluid
                 selection
                 value={!!selectedOscillator ? selectedOscillator.value : null}
@@ -155,12 +141,12 @@ const Pad = ({pad: {pad, attackGain}}) => {
                     changeSelectedOscillatorGain={changeSelectedOscillatorGain}
                     oscillator={selectedOscillator}
                 /> :
-                null}
-            <Button positive onMouseDown={play} onMouseUp={pause} onDrop={pause} >
+                <div className='oscillator-placeholder'></div>}
+            <Button className="play-button" positive onMouseDown={play} onMouseUp={pause} onDrop={pause} >
                 <Icon name="play"/>
             </Button>
-            <div className='gain-container'>
-                <p className='pad-label'>Gain: {Math.round(gain*100)}</p>
+            {/*<div className='gain-container'>*/}
+                {/*<p className='pad-label'>Gain: {Math.round(gain*100)}</p>*/}
                 <input
                     className="gain-slider"
                     type="range"
@@ -169,7 +155,7 @@ const Pad = ({pad: {pad, attackGain}}) => {
                     value={gain*100}
                     onChange={setPadGain}
                 />
-            </div>
+            {/*</div>*/}
         </div>
     );
 }

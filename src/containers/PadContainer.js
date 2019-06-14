@@ -8,7 +8,7 @@ const PadContainer = () => {
 
     const createPad = () => {
         const gainNode = Audio.context.createGain()
-        gainNode.gain.value = 0
+        gainNode.gain.value = .5
         const attackGain = Audio.context.createGain()
         attackGain.gain.value = 0
         attackGain.connect(Audio.masterGainNode)
