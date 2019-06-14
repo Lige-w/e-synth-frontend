@@ -1,0 +1,8 @@
+.ui.form {
+    margin: 50px;
+    max-width: 520px;
+}
+
+.ui.form div.field label {
+    color: #B5BEC8C8;
+}

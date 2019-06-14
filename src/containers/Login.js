@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {Form, Button} from "semantic-ui-react";
+import {Link} from "react-router-dom"
 
 import Fetch from '../helpers/Fetch'
 
@@ -8,13 +9,16 @@ const Login = () => {
     const [password, setPassword] = useState('')
 
     const handleLoginSubmit = () => {
-        const body = {username: username, password: password}
+        const body = {
+            user: {username: username, password: password}
+        }
 
         Fetch.POST(Fetch.LOGIN_URL, body).then(console.log)
     }
 
     return (
         <Form onSubmit={handleLoginSubmit}>
+            <h1>Login!</h1>
             <Form.Field>
                 <label>Username</label>
                 <input type="text" onChange={e => setUsername(e.target.value)}/>
@@ -24,6 +28,8 @@ const Login = () => {
                 <input type="password" onChange={e => setPassword(e.target.value)}/>
             </Form.Field>
             <Button type='submit'>Log In</Button>
+            <p>Don't have an account?</p>
+            <Link to='/register'><Button>Register</Button></Link>
         </Form>
     )
 }

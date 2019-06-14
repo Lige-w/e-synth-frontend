@@ -6,6 +6,8 @@ import './index.css';
 import './styles/Pad.css'
 import './styles/PadContainer.css'
 import './styles/MasterControls.css'
+import './styles/form.css'
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
