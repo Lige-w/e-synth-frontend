@@ -1,6 +1,8 @@
 import React, {Fragment, Component} from 'react'
+
 import PadContainer from './PadContainer'
 import MasterControls from './MasterControls'
+import SetupControls from '../components/SetupControls'
 import Audio from '../helpers/Audio'
 
 class UserSetup extends Component {
@@ -28,6 +30,7 @@ class UserSetup extends Component {
                     masterGain={this.state.masterGain}
                     setMasterGain={this.setMasterGain}
                 />
+                <SetupControls />
             </Fragment>
         )
     }

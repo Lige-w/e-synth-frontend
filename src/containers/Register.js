@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import Fetch from '../helpers/Fetch'
 
-const Register = () => {
+const Register = ({setCurrentUser}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -20,7 +20,14 @@ const Register = () => {
         }
 
         Fetch.POST(Fetch.USERS_URL, body)
-            .then(console.log)
+            .then(data => {
+                if (!data.error){
+                    setCurrentUser(data.user)
+                    localStorage.setItem('token', data.jwt)
+                } else {
+                    alert('Failed to register')
+                }
+            })
     }
 
     return (

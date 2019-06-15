@@ -8,6 +8,8 @@ const Login = ({setCurrentUser}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+
+
     const handleLoginSubmit = () => {
         const body = {
             user: {username: username, password: password}
