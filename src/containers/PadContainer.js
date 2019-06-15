@@ -7,12 +7,14 @@ const PadContainer = () => {
     const [pads, setPads] = useState([])
 
     const createPad = () => {
-        const gainNode = Audio.context.createGain()
-        gainNode.gain.value = .5
         const attackGain = Audio.context.createGain()
         attackGain.gain.value = 0
         attackGain.connect(Audio.masterGainNode)
+
+        const gainNode = Audio.context.createGain()
+        gainNode.gain.value = .5
         gainNode.connect(attackGain)
+
         setPads([...pads, {pad: gainNode, attackGain: attackGain}])
     }
 
