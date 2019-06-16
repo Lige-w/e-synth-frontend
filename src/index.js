@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from 'react-router-dom'
 
 import './index.css';
+import './styles/Profile.css'
 import './styles/Pad.css'
 import './styles/PadContainer.css'
 import './styles/MasterControls.css'
+import './styles/SetupControls.css'
 import './styles/form.css'
 
 import App from './App';

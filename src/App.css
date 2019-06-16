@@ -1,14 +1,19 @@
 * {
-  color: #B5BEC8
+  color: #B5BEC8;
 }
 
-#root {
+body {
+  background: #202020;
+}
+
+
+#root #synth-view{
   display: grid;
   grid-template-rows: 80vh 20vh;
+  grid-template-columns: auto 200px;
   grid-template-areas:
-    'pad-container'
-    'master-controls';
-  background: #202020;
+    'pad-container pad-container'
+    'master-controls setup-controls';
 }
 
 #pad-container {
@@ -17,7 +22,20 @@
 
 #master-controls {
   grid-area: master-controls;
+
+}
+
+#setup-controls {
+  grid-area: setup-controls;
+  padding: 5px;
+  border-left: solid 1px #737373;
+  display: grid
+}
+
+#master-controls, #setup-controls {
   box-shadow: inset 0 10px 40px -15px #5d5d5d;
   border-top: solid 1px #737373;
   background: #2D2D2D
 }
+
+

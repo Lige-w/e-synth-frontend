@@ -1,0 +1,8 @@
+.ui.tiny.modal.transition.visible.active > * {
+    color: #B5BEC8;
+    background-color: #2D2D2D;
+}
+
+.ui.tiny.modal.transition.visible.active .header {
+    border-bottom: solid 1px #737373;
+}

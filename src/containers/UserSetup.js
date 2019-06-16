@@ -1,39 +1,39 @@
-import React, {Fragment, Component} from 'react'
+import React, {Fragment, useState, useEffect} from 'react'
 
 import PadContainer from './PadContainer'
 import MasterControls from './MasterControls'
 import SetupControls from '../components/SetupControls'
 import Audio from '../helpers/Audio'
 
-class UserSetup extends Component {
+const UserSetup = () =>  {
 
-    state = {
-        masterGain: 0
-    }
+    const [masterGain, setMasterGain] = useState(.5)
 
-    componentDidMount() {
+    useEffect(() => {
         Audio.masterGainNode.connect(Audio.context.destination)
         Audio.masterGainNode.gain.value = .5
-        this.setState({masterGain: Audio.masterGainNode.gain.value})
-    }
+        setMasterGain(Audio.masterGainNode.gain.value)
+    },[])
 
-    setMasterGain = (e) => {
+    const changeMasterGain = (e) => {
         Audio.masterGainNode.gain.value = e.target.value/100
-        this.setState({masterGain: Audio.masterGainNode.gain.value})
+        setMasterGain(Audio.masterGainNode.gain.value)
     }
 
-    render(){
+    const savePadSetup = () => {
+
+    }
+
         return (
-            <Fragment>
+            <div id='synth-view'>
                 <PadContainer />
                 <MasterControls
-                    masterGain={this.state.masterGain}
-                    setMasterGain={this.setMasterGain}
+                    masterGain={masterGain}
+                    setMasterGain={changeMasterGain}
                 />
-                <SetupControls />
-            </Fragment>
+                <SetupControls savePadSetup={savePadSetup} />
+            </div>
         )
-    }
 }
 
 export default UserSetup;

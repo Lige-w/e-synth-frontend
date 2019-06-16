@@ -3,7 +3,7 @@ import { Route, Switch, Redirect} from 'react-router-dom'
 
 import './App.css';
 
-import UserSetup from './containers/UserSetup'
+import Profile from './containers/Profile'
 import Login from './containers/Login'
 import Register from './containers/Register'
 import Fetch from './helpers/Fetch'
@@ -18,7 +18,7 @@ const App = () => {
         const token = localStorage.getItem('token')
         if (token) {
             Fetch.AUTH(Fetch.AUTH_URL, token)
-                .then(user => {
+                .then( ({ user }) => {
                     console.log(user)
                     setLoading(false)
                     setCurrentUser(user)
@@ -28,26 +28,27 @@ const App = () => {
         }
     },[])
 
-    const showSetup = () => loading ? null : (
-        currentUser ? <UserSetup /> : <Redirect to="/login" />
+    const showRegister = () => loading ? null : (
+        currentUser ? <Redirect to={`/${currentUser.username}`} /> : <Register />
     )
 
     const showLogIn = () => loading ? null : (
         currentUser ?
-            <Redirect to="/setup" /> :
+            <Redirect to={`/${currentUser.username}`} /> :
             <Login setCurrentUser={setCurrentUser} />
     )
 
+    const redirectHome = () => loading ? null : (
+        currentUser ? <Redirect to={`/${currentUser.username}`} />: <Redirect to="/login" />
+    )
 
 
     return (
         <Switch>
-            <Route exact path='/' render={() => <Redirect to="/setup"/>} />
+            <Route exact path='/' render={redirectHome}/>
             <Route exact path='/login' render={showLogIn}/>
-            <Route exact path='/register' render={() => (
-                currentUser ? <Redirect to='/setup' /> :  <Register setCurrentUser={setCurrentUser}/>
-            )} />
-            <Route exact path='/setup' component={showSetup} />
+            <Route exact path='/register' render={showRegister} />
+            {currentUser ? <Route exact path={`/${currentUser.username}`} render={() => <Profile user={currentUser} />} /> : <Redirect to='/login' />}
         </Switch>
     )
 }

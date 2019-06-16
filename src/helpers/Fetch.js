@@ -24,6 +24,19 @@ class Fetch {
         })
             .then(resp => resp.json())
     }
+
+    static PATCH(url, body) {
+        return fetch(url, {
+            method: "PATCH",
+            headers: {
+                "Content-Type" :"application/json",
+                "Accept" :"application/json"
+            },
+            body: JSON.stringify(body)
+        })
+            .then(resp => resp.json())
+    }
+
 }
 
 export default Fetch
