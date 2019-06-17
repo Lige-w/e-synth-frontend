@@ -14,11 +14,13 @@ const PadContainer = ({pads, setPads, padsAttributes, setPadsAttributes}) => {
         gainNode.gain.value = .5
         gainNode.connect(attackGain)
 
+        setPads([...pads, {pad: gainNode, attackGain: attackGain}])
+
         setPadsAttributes([...padsAttributes, {
             gain: gainNode.gain.value,
+            key_name: 'a',
             oscillators_attributes: []
         }])
-        setPads([...pads, {pad: gainNode, attackGain: attackGain}])
     }
 
     const padComponents = pads.map((pad, i) => (

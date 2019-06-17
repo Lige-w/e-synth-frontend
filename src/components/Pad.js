@@ -18,13 +18,25 @@ const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index})
 
     const changeKeyTrigger = (e) => {
         setKeyName(e.key)
+        changePadKeyAttribute(e.key)
         e.target.removeEventListener('keydown', changeKeyTrigger)
         e.target.innerText = `Key: ${e.key}`
     }
 
+    const changePadKeyAttribute = (key) => {
+        const padsAttributesCopy = [...padsAttributes]
+        padsAttributesCopy[index].key_name = key
+    }
+
     const setPadGain = (e) => {
         pad.gain.value = e.target.value/100
+        changePadGainAttribute(pad.gain.value)
         setGain(pad.gain.value)
+    }
+
+    const changePadGainAttribute = (gain) => {
+        const padsAttributesCopy = [...padsAttributes]
+        padsAttributesCopy[index].gain = gain
     }
 
     const addOscillator = () => {
