@@ -11,6 +11,38 @@ const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index})
     const [selectedOscillator, setSelectedOscillator] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
 
+    const initializeSavedPad = () => {
+        setKeyName(padsAttributes[index].key_name)
+
+        const savedOscillators = padsAttributes[index].oscillators_attributes.map((oscillatorAttributes, i) => {
+            const oscillatorGain = Audio.context.createGain()
+            oscillatorGain.gain.value = oscillatorAttributes.gain
+            oscillatorGain.connect(pad)
+
+            const oscillator = Audio.context.createOscillator()
+            oscillator.frequency.value = oscillatorAttributes.frequency
+            oscillator.type = oscillatorAttributes.wave_type
+            oscillator.connect(oscillatorGain)
+            oscillator.start(0)
+
+            return {
+                key: `id-${oscillatorAttributes.id}`,
+                text: `oscillator-${i + 1}`,
+                value: `oscillator-${i + 1}`,
+                oscillator: oscillator,
+                frequency: oscillator.frequency.value,
+                gainNode: oscillatorGain,
+                gain: oscillatorGain.gain.value,
+                type: oscillator.type
+            }
+        })
+
+        setSelectedOscillator(savedOscillators[0])
+        setOscillators(savedOscillators)
+    }
+
+    useEffect(initializeSavedPad, [])
+
     const allowKeyTriggerChange = (e) => {
         e.target.addEventListener('keydown', changeKeyTrigger)
         e.target.innerText = 'Press any key...'
