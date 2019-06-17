@@ -1,20 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Icon } from 'semantic-ui-react'
 import Pad from '../components/Pad'
 import Audio from '../helpers/Audio'
 
 const PadContainer = ({pads, setPads, padsAttributes, setPadsAttributes}) => {
 
-    const createPad = () => {
+    const initializeSavedPads = () => {
+        const savedPads = padsAttributes.map(pad => {
+            const thisAttackGain = attackGain()
+
+            const gainNode = Audio.context.createGain()
+            gainNode.gain.value = pad.gain
+            gainNode.connect(thisAttackGain)
+
+            return {pad: gainNode, attackGain: thisAttackGain}
+        })
+
+        setPads(savedPads)
+    }
+
+    useEffect(initializeSavedPads, [])
+
+    const attackGain = () => {
         const attackGain = Audio.context.createGain()
         attackGain.gain.value = 0
         attackGain.connect(Audio.masterGainNode)
+        return attackGain
+    }
+
+    const createPad = () => {
+        const thisAttackGain = attackGain()
 
         const gainNode = Audio.context.createGain()
         gainNode.gain.value = .5
-        gainNode.connect(attackGain)
+        gainNode.connect(thisAttackGain)
 
-        setPads([...pads, {pad: gainNode, attackGain: attackGain}])
+        setPads([...pads, {pad: gainNode, attackGain: thisAttackGain}])
 
         setPadsAttributes([...padsAttributes, {
             gain: gainNode.gain.value,

@@ -66,7 +66,8 @@ const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index})
     const addOscillatorAttributes = ({frequency, gain, type}) => {
         const padsAttributesCopy = [...padsAttributes]
         const oscillatorsAttributes = padsAttributesCopy[index].oscillators_attributes
-        const updatedOscillatorsAttributes = [...oscillatorsAttributes, {frequency: frequency, gain: gain, type:type}]
+        debugger
+        const updatedOscillatorsAttributes = [...oscillatorsAttributes, {frequency: frequency, gain: gain, wave_type: type}]
 
         padsAttributesCopy[index].oscillators_attributes = updatedOscillatorsAttributes
 
@@ -109,7 +110,7 @@ const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index})
     const updateOscillatorsAttributes = (oscillatorIndex) => {
             const padsAttributesCopy = [...padsAttributes]
             const oscillatorsAttributes = padsAttributesCopy[index].oscillators_attributes
-            oscillatorsAttributes[oscillatorIndex].type = selectedOscillator.type
+            oscillatorsAttributes[oscillatorIndex].wave_type = selectedOscillator.type
             oscillatorsAttributes[oscillatorIndex].frequency = selectedOscillator.frequency
             oscillatorsAttributes[oscillatorIndex].gain = selectedOscillator.gain
 

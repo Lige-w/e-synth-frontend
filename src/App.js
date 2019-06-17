@@ -19,7 +19,6 @@ const App = () => {
         if (token) {
             Fetch.AUTH(Fetch.AUTH_URL, token)
                 .then( ({ user }) => {
-                    console.log(user)
                     setLoading(false)
                     setCurrentUser(user)
                 })
