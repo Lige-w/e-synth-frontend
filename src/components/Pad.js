@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import Audio from '../helpers/Audio'
-import { Button, Select, Icon } from 'semantic-ui-react'
+import {Button, Icon, Select} from 'semantic-ui-react'
 import OscillatorControls from './OscillatorControls'
 
-const Pad = ({pad: {pad, attackGain}}) => {
+const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index}) => {
 
     const [keyName, setKeyName] = useState('a')
     const [gain, setGain] = useState(pad.gain.value)
@@ -47,6 +47,18 @@ const Pad = ({pad: {pad, attackGain}}) => {
         }
         setOscillators([...oscillators, oscillatorObject])
         setSelectedOscillator(oscillatorObject)
+
+        addOscillatorAttributes(oscillatorObject)
+    }
+
+    const addOscillatorAttributes = ({frequency, gain, type}) => {
+        const padsAttributesCopy = [...padsAttributes]
+        const oscillatorsAttributes = padsAttributesCopy[index].oscillators_attributes
+        const updatedOscillatorsAttributes = [...oscillatorsAttributes, {frequency: frequency, gain: gain, type:type}]
+
+        padsAttributesCopy[index].oscillators_attributes = updatedOscillatorsAttributes
+
+        setPadsAttributes(padsAttributesCopy)
     }
 
     const selectOscillator = (e, { value }) => {
@@ -73,12 +85,23 @@ const Pad = ({pad: {pad, attackGain}}) => {
 
     const updateOscillators = () => {
         if (!!oscillators && !!selectedOscillator) {
-            const index = oscillators.findIndex(oscillator => oscillator.key === selectedOscillator.key)
+            const oscillatorIndex = oscillators.findIndex(oscillator => oscillator.key === selectedOscillator.key)
             const oscillatorsCopy = [...oscillators]
-            oscillatorsCopy.splice(index, 1, selectedOscillator)
+            oscillatorsCopy.splice(oscillatorIndex, 1, selectedOscillator)
             setOscillators(oscillatorsCopy)
 
+            updateOscillatorsAttributes(oscillatorIndex)
         }
+    }
+
+    const updateOscillatorsAttributes = (oscillatorIndex) => {
+            const padsAttributesCopy = [...padsAttributes]
+            const oscillatorsAttributes = padsAttributesCopy[index].oscillators_attributes
+            oscillatorsAttributes[oscillatorIndex].type = selectedOscillator.type
+            oscillatorsAttributes[oscillatorIndex].frequency = selectedOscillator.frequency
+            oscillatorsAttributes[oscillatorIndex].gain = selectedOscillator.gain
+
+            setPadsAttributes(padsAttributesCopy)
     }
 
     useEffect(updateOscillators, [selectedOscillator])
@@ -146,15 +169,15 @@ const Pad = ({pad: {pad, attackGain}}) => {
                 <Icon name="play"/>
             </Button>
             {/*<div className='gain-container'>*/}
-                {/*<p className='pad-label'>Gain: {Math.round(gain*100)}</p>*/}
-                <input
-                    className="gain-slider"
-                    type="range"
-                    min='0'
-                    max='100'
-                    value={gain*100}
-                    onChange={setPadGain}
-                />
+            {/*<p className='pad-label'>Gain: {Math.round(gain*100)}</p>*/}
+            <input
+                className="gain-slider"
+                type="range"
+                min='0'
+                max='100'
+                value={gain*100}
+                onChange={setPadGain}
+            />
             {/*</div>*/}
         </div>
     );

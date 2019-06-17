@@ -3,8 +3,7 @@ import { Icon } from 'semantic-ui-react'
 import Pad from '../components/Pad'
 import Audio from '../helpers/Audio'
 
-const PadContainer = () => {
-    const [pads, setPads] = useState([])
+const PadContainer = ({pads, setPads, padsAttributes, setPadsAttributes}) => {
 
     const createPad = () => {
         const attackGain = Audio.context.createGain()
@@ -15,11 +14,15 @@ const PadContainer = () => {
         gainNode.gain.value = .5
         gainNode.connect(attackGain)
 
+        setPadsAttributes([...padsAttributes, {
+            gain: gainNode.gain.value,
+            oscillators_attributes: []
+        }])
         setPads([...pads, {pad: gainNode, attackGain: attackGain}])
     }
 
     const padComponents = pads.map((pad, i) => (
-        <Pad key={i} pad={pad} />
+        <Pad key={i} pad={pad} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} index={i}/>
     ))
 
     return (

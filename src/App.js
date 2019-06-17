@@ -28,6 +28,12 @@ const App = () => {
         }
     },[])
 
+    const addUserSetup = (setup) => {
+        const userCopy = {...currentUser}
+        userCopy.setups = [...userCopy.setups, setup]
+        setCurrentUser(userCopy)
+    }
+
     const showRegister = () => loading ? null : (
         currentUser ? <Redirect to={`/${currentUser.username}`} /> : <Register />
     )
@@ -48,7 +54,11 @@ const App = () => {
             <Route exact path='/' render={redirectHome}/>
             <Route exact path='/login' render={showLogIn}/>
             <Route exact path='/register' render={showRegister} />
-            {currentUser ? <Route exact path={`/${currentUser.username}`} render={() => <Profile user={currentUser} />} /> : <Redirect to='/login' />}
+            {currentUser ?
+                <Route exact path={`/${currentUser.username}`} render={(routerProps) => (
+                    <Profile {...routerProps} addUserSetup={addUserSetup} user={currentUser} />
+                )} /> :
+                <Redirect to='/login' />}
         </Switch>
     )
 }
