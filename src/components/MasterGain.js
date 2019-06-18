@@ -3,8 +3,8 @@ import React from 'react'
 const MasterGain = ({masterGain, setMasterGain}) => {
 
     return (
-        <div>
-            Master Gain: {Math.round(masterGain*100)}
+        <div id='master-gain'>
+            <p>Master Gain: {Math.round(masterGain*100)}</p>
             <input
                 type="range"
                 min='0'

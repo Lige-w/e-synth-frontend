@@ -1,0 +1,10 @@
+#master-controls {
+    display: grid;
+    grid-template-columns: auto;
+    text-align: center;
+    padding: 5px;
+}
+
+#master-gain input{
+    width: 100%;
+}

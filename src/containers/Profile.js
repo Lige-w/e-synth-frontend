@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {Switch, Link, Route, Redirect} from "react-router-dom"
-import {Modal, Button, Form} from "semantic-ui-react";
+import {Modal, Button, Form, Icon} from "semantic-ui-react";
 
 import Fetch from '../helpers/Fetch'
 import UserSetup from "./UserSetup";
@@ -33,8 +33,11 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
 
     const userSetupLinks = setups.map(setup => (
         <Link key={`id-${setup.id}`} to={`/setups/${setup.id}`}>
-            <Button  onClick={() => {
-        }}>{setup.name}</Button>
+            <Button  animated='fade' onClick={() => {
+            }}>
+                <Button.Content visible><h2>{setup.name}</h2></Button.Content>
+                <Button.Content hidden><h4>{setup.pads.length} pads</h4></Button.Content>
+            </Button>
         </Link>
     ))
 
@@ -42,23 +45,30 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
     if (setupPageRedirect) {return <Redirect to={`/setups/${setupPageRedirect}`} />}
 
     return(
-        <div>
-            <Modal open={isModalOpen} size="tiny" centered={false} trigger={<Button onClick={() => setIsModalOpen(true)}>New Setup</Button>}>
-                <Modal.Header>New Setup</Modal.Header>
-                <Modal.Content>
-                    <Form onSubmit={createNewSetup}>
-                        <Form.Field>
-                            <label>Setup Name</label>
-                            <input type="text"/>
-                        </Form.Field>
-                        <Form.Field>
-                            <Button type='submit'>Create Setup</Button>
-                        </Form.Field>
-                    </Form>
-                </Modal.Content>
-            </Modal>
-            {userSetupLinks}
-
+        <div id='profile'>
+            <h1 id="profile-title">Hi {username}!</h1>
+            <div id="setup-links">
+                <Modal size="tiny" centered={false} trigger={
+                    <Button animated='fade'>
+                        <Button.Content visible><Icon  className='add big' /></Button.Content>
+                        <Button.Content hidden>New Pad Setup</Button.Content>
+                    </Button>
+                }>
+                    <Modal.Header>New Setup</Modal.Header>
+                    <Modal.Content>
+                        <Form onSubmit={createNewSetup}>
+                            <Form.Field>
+                                <label>Setup Name</label>
+                                <input type="text"/>
+                            </Form.Field>
+                            <Form.Field>
+                                <Button type='submit'>Create Setup</Button>
+                            </Form.Field>
+                        </Form>
+                    </Modal.Content>
+                </Modal>
+                {userSetupLinks}
+            </div>
         </div>
     )
 }
