@@ -68,6 +68,7 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
                     const setupPadsCopy = [...setup.pads]
                     const padsCopy = [...pads]
                     padsCopy.splice(index, 1)
+                    setupPadsCopy.splice(index, 1)
 
 
                     setPads(padsCopy)

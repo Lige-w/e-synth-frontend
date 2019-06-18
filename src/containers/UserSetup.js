@@ -85,7 +85,7 @@ const UserSetup = ({user, user: {username, setups}, setUser, setup}) =>  {
                 masterGain={masterGain}
                 setMasterGain={changeMasterGain}
             />
-            <SetupControls savePadSetup={savePadSetup} destroyPadSetup={destroyPadSetup} />
+            <SetupControls savePadSetup={savePadSetup} destroyPadSetup={destroyPadSetup} username={username} />
         </div>
     )
 }

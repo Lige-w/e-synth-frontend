@@ -9,6 +9,7 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
 
     // const [selectedSetup, setSelectedSetup] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [setupPageRedirect, setSetupPageRedirect] = useState(null)
     // const [padsAttributes, setPadsAttributes] = useState([])
 
     const createNewSetup = (e) => {
@@ -21,7 +22,7 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
                 .then(setup => {
                     addUserSetup(setup)
                     setIsModalOpen(false)
-                    return <Redirect to={`/setups/${setup.id}`} />
+                    setSetupPageRedirect(setup.id)
                 })
         } else {
             alert('Please log in to continue')
@@ -37,6 +38,8 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
         </Link>
     ))
 
+
+    if (setupPageRedirect) {return <Redirect to={`/setups/${setupPageRedirect}`} />}
 
     return(
         <div>
