@@ -34,7 +34,7 @@ const App = () => {
     }
 
     const showRegister = () => loading ? null : (
-        currentUser ? <Redirect to={`/${currentUser.username}`} /> : <Register />
+        currentUser ? <Redirect to={`/${currentUser.username}`} /> : <Register setCurrentUser={setCurrentUser} />
     )
 
     const showLogIn = () => loading ? null : (
@@ -55,7 +55,7 @@ const App = () => {
             <Route exact path='/register' render={showRegister} />
             {currentUser ?
                 <Route exact path={`/${currentUser.username}`} render={(routerProps) => (
-                    <Profile {...routerProps} addUserSetup={addUserSetup} user={currentUser} />
+                    <Profile {...routerProps} addUserSetup={addUserSetup} user={currentUser} setCurrentUser={setCurrentUser} />
                 )} /> :
                 <Redirect to='/login' />}
         </Switch>

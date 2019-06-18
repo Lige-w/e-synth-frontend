@@ -7,7 +7,7 @@ import MasterControls from './MasterControls'
 import SetupControls from '../components/SetupControls'
 import Audio from '../helpers/Audio'
 
-const UserSetup = ({setup, padsAttributes, setPadsAttributes}) =>  {
+const UserSetup = ({setup, padsAttributes, setPadsAttributes, savePadSetup}) =>  {
 
     const [pads, setPads] = useState([])
     const [masterGain, setMasterGain] = useState(.5)
@@ -27,15 +27,7 @@ const UserSetup = ({setup, padsAttributes, setPadsAttributes}) =>  {
         setMasterGain(Audio.masterGainNode.gain.value)
     }
 
-    const savePadSetup = () => {
-        const body = {pads_attributes: padsAttributes}
-        if (Fetch.token) {
-            Fetch.PATCH(`${Fetch.SETUPS_URL}/${setup.id}`, body)
-                .then(console.log)
-        } else {
-            alert('Please log in to continue')
-        }
-    }
+
 
     return (
         <div id='synth-view'>

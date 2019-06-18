@@ -26,7 +26,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
             oscillator.start(0)
 
             return {
-                key: i+1,
+                key: `id-${oscillatorAttributes.id}` || i+1,
                 text: `oscillator-${i + 1}`,
                 value: `oscillator-${i + 1}`,
                 oscillator: oscillator,
@@ -142,13 +142,19 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
     }
 
     const updateOscillatorsAttributes = (oscillatorIndex) => {
+
+
             const padsAttributesCopy = [...padsAttributes]
+        if (!!padsAttributes.length){
             const oscillatorsAttributes = padsAttributesCopy[index].oscillators_attributes
             oscillatorsAttributes[oscillatorIndex].wave_type = selectedOscillator.type
             oscillatorsAttributes[oscillatorIndex].frequency = selectedOscillator.frequency
             oscillatorsAttributes[oscillatorIndex].gain = selectedOscillator.gain
+        }
 
             setPadsAttributes(padsAttributesCopy)
+
+
     }
 
     useEffect(updateOscillators, [selectedOscillator])

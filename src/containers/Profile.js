@@ -5,7 +5,7 @@ import {Modal, Button, Form} from "semantic-ui-react";
 import Fetch from '../helpers/Fetch'
 import UserSetup from "./UserSetup";
 
-const Profile = ( {match, addUserSetup, user: {username, setups}} ) => {
+const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, setups}} ) => {
 
     const [selectedSetup, setSelectedSetup] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -21,7 +21,26 @@ const Profile = ( {match, addUserSetup, user: {username, setups}} ) => {
                 .then(setup => {
                     addUserSetup(setup)
                     setSelectedSetup(setup)
+                    setPadsAttributes(setup.pads)
                     setIsModalOpen(false)
+                })
+        } else {
+            alert('Please log in to continue')
+        }
+    }
+
+    const savePadSetup = () => {
+        const body = {pads_attributes: padsAttributes}
+        if (Fetch.token) {
+            Fetch.PATCH(`${Fetch.SETUPS_URL}/${selectedSetup.id}`, body)
+                .then(setup => {
+                    setSelectedSetup(setup)
+                    setPadsAttributes(setup.pads)
+
+                    const setupIndex = setups.findIndex(userSetup => userSetup.id === setup.id)
+                    const setupsCopy = [...setups]
+                    setupsCopy.splice(setupIndex, 1, setup)
+                    setCurrentUser({...user, setups: setupsCopy})
                 })
         } else {
             alert('Please log in to continue')
@@ -53,7 +72,7 @@ const Profile = ( {match, addUserSetup, user: {username, setups}} ) => {
                 </Modal.Content>
             </Modal>
             {userSetupLinks}
-            {selectedSetup ? <UserSetup setup={selectedSetup} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} /> : null}
+            {selectedSetup ? <UserSetup setup={selectedSetup} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} savePadSetup={savePadSetup} /> : null}
         </div>
     )
 }
