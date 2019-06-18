@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, Fragment} from 'react'
 import Audio from '../helpers/Audio'
 import {Button, Icon, Select} from 'semantic-ui-react'
 import OscillatorControls from './OscillatorControls'
+import Fetch from "../helpers/Fetch";
 
-const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, index}) => {
+const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, index, deletePad}) => {
 
     const [keyName, setKeyName] = useState('a')
     const [gain, setGain] = useState(pad.gain.value)
@@ -144,7 +145,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
     const updateOscillatorsAttributes = (oscillatorIndex) => {
 
 
-            const padsAttributesCopy = [...padsAttributes]
+        const padsAttributesCopy = [...padsAttributes]
         if (!!padsAttributes.length){
             const oscillatorsAttributes = padsAttributesCopy[index].oscillators_attributes
             oscillatorsAttributes[oscillatorIndex].wave_type = selectedOscillator.type
@@ -152,7 +153,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
             oscillatorsAttributes[oscillatorIndex].gain = selectedOscillator.gain
         }
 
-            setPadsAttributes(padsAttributesCopy)
+        setPadsAttributes(padsAttributesCopy)
 
 
     }
@@ -193,45 +194,48 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
     }, [handleKeyUp])
 
 
+
     return (
-        <div className='pad' >
-            <Button className='new-oscillator' onClick={addOscillator} >New Oscillator</Button>
-            <Button className='key-select' onClick={allowKeyTriggerChange}>Key: {keyName}</Button>
-            <Select
-                placeholder='Add an oscillator...'
-                className='oscillator-select'
-                fluid
-                selection
-                value={!!selectedOscillator ? selectedOscillator.value : null}
-                options={oscillators.map(oscillator => ({
-                    key: oscillator.key,
-                    text: oscillator.text,
-                    value: oscillator.value
-                }))}
-                onChange={selectOscillator}
-            />
-            {selectedOscillator ?
-                <OscillatorControls
-                    changeSelectedOscillatorFrequency={changeSelectedOscillatorFrequency}
-                    changeSelectedOscillatorType={changeSelectedOscillatorType}
-                    changeSelectedOscillatorGain={changeSelectedOscillatorGain}
-                    oscillator={selectedOscillator}
-                /> :
-                <div className='oscillator-placeholder'></div>}
-            <Button className="play-button" positive onMouseDown={play} onMouseUp={pause} onDrop={pause} >
-                <Icon name="play"/>
-            </Button>
-            {/*<div className='gain-container'>*/}
-            {/*<p className='pad-label'>Gain: {Math.round(gain*100)}</p>*/}
-            <input
-                className="gain-slider"
-                type="range"
-                min='0'
-                max='100'
-                value={gain*100}
-                onChange={setPadGain}
-            />
-            {/*</div>*/}
+
+            <div className='pad' >
+                <Icon className='delete-pad' name='delete' onClick={() => deletePad(index)}/>
+                <Button className='new-oscillator' onClick={addOscillator} >New Oscillator</Button>
+                <Button className='key-select' onClick={allowKeyTriggerChange}>Key: {keyName}</Button>
+                <Select
+                    placeholder='Add an oscillator...'
+                    className='oscillator-select'
+                    fluid
+                    selection
+                    value={!!selectedOscillator ? selectedOscillator.value : null}
+                    options={oscillators.map(oscillator => ({
+                        key: oscillator.key,
+                        text: oscillator.text,
+                        value: oscillator.value
+                    }))}
+                    onChange={selectOscillator}
+                />
+                {selectedOscillator ?
+                    <OscillatorControls
+                        changeSelectedOscillatorFrequency={changeSelectedOscillatorFrequency}
+                        changeSelectedOscillatorType={changeSelectedOscillatorType}
+                        changeSelectedOscillatorGain={changeSelectedOscillatorGain}
+                        oscillator={selectedOscillator}
+                    /> :
+                    <div className='oscillator-placeholder'></div>}
+                <Button className="play-button" positive onMouseDown={play} onMouseUp={pause} onDrop={pause} >
+                    <Icon name="play"/>
+                </Button>
+                {/*<div className='gain-container'>*/}
+                {/*<p className='pad-label'>Gain: {Math.round(gain*100)}</p>*/}
+                <input
+                    className="gain-slider"
+                    type="range"
+                    min='0'
+                    max='100'
+                    value={gain*100}
+                    onChange={setPadGain}
+                />
+                {/*</div>*/}
         </div>
     );
 }

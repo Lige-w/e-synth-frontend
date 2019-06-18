@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Icon } from 'semantic-ui-react'
 import Pad from '../components/Pad'
 import Audio from '../helpers/Audio'
+import Fetch from "../helpers/Fetch";
 
-const PadContainer = (props) => {
+const PadContainer = ({setup, pads, setPads, padsAttributes, setPadsAttributes, setUser, user}) => {
 
-    const {setup, pads, setPads, padsAttributes, setPadsAttributes} = props
+
 
 
     const initializeSavedPads = () => {
@@ -57,8 +58,47 @@ const PadContainer = (props) => {
         }])
     }
 
+    const deletePad = (index) => {
+        const padId = padsAttributes[index].id
+        if (Fetch.token && padId) {
+            Fetch.DESTROY(`${Fetch.PADS_URL}/${padId}`, Fetch.token)
+                .then(({message}) => {
+                    const padsAttributesCopy = [...padsAttributes]
+                    const padsCopy = [...pads]
+                    padsCopy.splice(index, 1)
+                    padsAttributesCopy.splice(index, 1)
+
+                    setPads(padsCopy)
+                    setPadsAttributes(padsAttributesCopy)
+
+                    const setupCopy = {...setup, pads: padsAttributesCopy}
+                    const setupsCopy = [...user.setups]
+                    const setupIndex = setupsCopy.findIndex(s => s.id === setup.id)
+                    setupsCopy.splice(setupIndex, 1, setupCopy)
+
+                    setUser({...user, setups: setupsCopy})
+                })
+        } else {
+            const padsAttributesCopy = [...padsAttributes]
+            const padsCopy = [...pads]
+            padsCopy.splice(index, 1)
+            padsAttributesCopy.splice(index, 1)
+
+            setPads(padsCopy)
+            setPadsAttributes(padsAttributesCopy)
+        }
+    }
+
     const padComponents = pads.map((pad, i) => (
-        <Pad key={i} pad={pad} pads={pads} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} index={i}/>
+        <Pad
+            key={i}
+            pad={pad}
+            pads={pads}
+            padsAttributes={padsAttributes}
+            setPadsAttributes={setPadsAttributes}
+            deletePad={deletePad}
+            index={i}
+        />
     ))
 
     return (

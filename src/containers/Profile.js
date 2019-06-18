@@ -97,6 +97,8 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
                     setPadsAttributes={setPadsAttributes}
                     savePadSetup={savePadSetup}
                     destroyPadSetup={destroyPadSetup}
+                    user={user}
+                    setUser={setCurrentUser}
                 />
                     : null}
         </div>

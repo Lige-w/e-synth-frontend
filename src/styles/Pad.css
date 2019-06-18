@@ -37,3 +37,15 @@
 .play-button {
     grid-column: 1 / 3;
 }
+
+.delete-pad {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    line-height: 0;
+    background: red;
+    border-radius: 50% 50%;
+    padding: 8px 5px 8px 3px;
+    box-shadow: 0 0 5px 1px black;
+    z-index: 2;
+}

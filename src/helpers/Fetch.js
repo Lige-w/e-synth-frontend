@@ -4,6 +4,7 @@ class Fetch {
     static AUTH_URL = 'http://localhost:3000/api/v1/profile'
     static USERS_URL = 'http://localhost:3000/api/v1/users'
     static SETUPS_URL = 'http://localhost:3000/api/v1/setups'
+    static PADS_URL = 'http://localhost:3000/api/v1/pads'
 
     static token = localStorage.getItem('token')
 
