@@ -9,13 +9,15 @@ const Profile = ( {match, addUserSetup, user: {username, setups}} ) => {
 
     const [selectedSetup, setSelectedSetup] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [padsAttributes, setPadsAttributes] = useState([])
 
     const createNewSetup = (e) => {
         const body = {
             name: e.target[0].value
         }
-        if (Fetch.token) {
-            Fetch.authPOST(Fetch.SETUPS_URL, body)
+
+        if (localStorage['token']) {
+            Fetch.authPOST(Fetch.SETUPS_URL, body, localStorage['token'])
                 .then(setup => {
                     addUserSetup(setup)
                     setSelectedSetup(setup)
@@ -27,7 +29,10 @@ const Profile = ( {match, addUserSetup, user: {username, setups}} ) => {
     }
 
     const userSetupLinks = setups.map(setup => (
-        <Button key={setup.id} onClick={() => setSelectedSetup(setup)}>{setup.name}</Button>
+        <Button key={setup.id} onClick={() => {
+            setSelectedSetup(setup)
+            setPadsAttributes(setup.pads)
+        }}>{setup.name}</Button>
     ))
 
 
@@ -48,7 +53,7 @@ const Profile = ( {match, addUserSetup, user: {username, setups}} ) => {
                 </Modal.Content>
             </Modal>
             {userSetupLinks}
-            {selectedSetup ? <UserSetup setup={selectedSetup} /> : null}
+            {selectedSetup ? <UserSetup setup={selectedSetup} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} /> : null}
         </div>
     )
 }

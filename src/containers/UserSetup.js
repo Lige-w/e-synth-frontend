@@ -7,16 +7,20 @@ import MasterControls from './MasterControls'
 import SetupControls from '../components/SetupControls'
 import Audio from '../helpers/Audio'
 
-const UserSetup = ({match, setup}) =>  {
-    const [padsAttributes, setPadsAttributes] = useState(setup.pads)
+const UserSetup = ({setup, padsAttributes, setPadsAttributes}) =>  {
+
     const [pads, setPads] = useState([])
     const [masterGain, setMasterGain] = useState(.5)
 
-    useEffect(() => {
+    const initializeSetup = () => {
         Audio.masterGainNode.connect(Audio.context.destination)
         Audio.masterGainNode.gain.value = .5
         setMasterGain(Audio.masterGainNode.gain.value)
-    },[])
+    }
+
+
+    useEffect(initializeSetup, [])
+    // useEffect(() => setPadsAttributes(setup.pads), [setup])
 
     const changeMasterGain = (e) => {
         Audio.masterGainNode.gain.value = e.target.value/100
@@ -36,10 +40,13 @@ const UserSetup = ({match, setup}) =>  {
     return (
         <div id='synth-view'>
             <PadContainer
+                setup={setup}
                 pads={pads}
                 setPads={setPads}
                 padsAttributes={padsAttributes}
-                setPadsAttributes={setPadsAttributes} />
+                setPadsAttributes={setPadsAttributes}
+                savePadSetup={savePadSetup}
+            />
             <MasterControls
                 masterGain={masterGain}
                 setMasterGain={changeMasterGain}

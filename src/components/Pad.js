@@ -3,7 +3,7 @@ import Audio from '../helpers/Audio'
 import {Button, Icon, Select} from 'semantic-ui-react'
 import OscillatorControls from './OscillatorControls'
 
-const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index}) => {
+const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, index}) => {
 
     const [keyName, setKeyName] = useState('a')
     const [gain, setGain] = useState(pad.gain.value)
@@ -26,7 +26,7 @@ const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index})
             oscillator.start(0)
 
             return {
-                key: `id-${oscillatorAttributes.id}`,
+                key: i+1,
                 text: `oscillator-${i + 1}`,
                 value: `oscillator-${i + 1}`,
                 oscillator: oscillator,
@@ -41,7 +41,10 @@ const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index})
         setOscillators(savedOscillators)
     }
 
-    useEffect(initializeSavedPad, [])
+
+    useEffect(initializeSavedPad, [pads])
+
+
 
     const allowKeyTriggerChange = (e) => {
         e.target.addEventListener('keydown', changeKeyTrigger)
@@ -98,7 +101,6 @@ const Pad = ({pad: {pad, attackGain}, padsAttributes, setPadsAttributes, index})
     const addOscillatorAttributes = ({frequency, gain, type}) => {
         const padsAttributesCopy = [...padsAttributes]
         const oscillatorsAttributes = padsAttributesCopy[index].oscillators_attributes
-        debugger
         const updatedOscillatorsAttributes = [...oscillatorsAttributes, {frequency: frequency, gain: gain, wave_type: type}]
 
         padsAttributesCopy[index].oscillators_attributes = updatedOscillatorsAttributes

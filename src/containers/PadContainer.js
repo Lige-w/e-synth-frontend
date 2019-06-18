@@ -3,23 +3,28 @@ import { Icon } from 'semantic-ui-react'
 import Pad from '../components/Pad'
 import Audio from '../helpers/Audio'
 
-const PadContainer = ({pads, setPads, padsAttributes, setPadsAttributes}) => {
+const PadContainer = (props) => {
+
+    const {setup, pads, setPads, padsAttributes, setPadsAttributes} = props
+
 
     const initializeSavedPads = () => {
-        const savedPads = padsAttributes.map(pad => {
-            const thisAttackGain = attackGain()
+        if(padsAttributes) {
+            const savedPads = padsAttributes.map(pad => {
+                const thisAttackGain = attackGain()
 
-            const gainNode = Audio.context.createGain()
-            gainNode.gain.value = pad.gain
-            gainNode.connect(thisAttackGain)
+                const gainNode = Audio.context.createGain()
+                gainNode.gain.value = pad.gain
+                gainNode.connect(thisAttackGain)
 
-            return {pad: gainNode, attackGain: thisAttackGain}
-        })
+                return {pad: gainNode, attackGain: thisAttackGain}
+            })
 
-        setPads(savedPads)
+            setPads(savedPads)
+        }
     }
 
-    useEffect(initializeSavedPads, [])
+    useEffect(initializeSavedPads, [setup])
 
     const attackGain = () => {
         const attackGain = Audio.context.createGain()
@@ -27,6 +32,14 @@ const PadContainer = ({pads, setPads, padsAttributes, setPadsAttributes}) => {
         attackGain.connect(Audio.masterGainNode)
         return attackGain
     }
+
+    // useEffect(()=>{
+    //     initializeSavedPads()
+    //     return pads.forEach(pad => {
+    //         pad.pad.disconnect()
+    //         pad.attackGain.disconnect()
+    //     })
+    // }, [])
 
     const createPad = () => {
         const thisAttackGain = attackGain()
@@ -45,7 +58,7 @@ const PadContainer = ({pads, setPads, padsAttributes, setPadsAttributes}) => {
     }
 
     const padComponents = pads.map((pad, i) => (
-        <Pad key={i} pad={pad} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} index={i}/>
+        <Pad key={i} pad={pad} pads={pads} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} index={i}/>
     ))
 
     return (

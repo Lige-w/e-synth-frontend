@@ -7,7 +7,6 @@ class Fetch {
 
     static token = localStorage.getItem('token')
 
-
     static POST(url, body) {
         return fetch(url, {
             method: "POST",
