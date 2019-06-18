@@ -26,7 +26,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
             oscillator.start(0)
 
             return {
-                key: `id-${oscillatorAttributes.id}` || i+1,
+                key: oscillatorAttributes.id ? `id-${oscillatorAttributes.id}` : i+1,
                 text: `oscillator-${i + 1}`,
                 value: `oscillator-${i + 1}`,
                 oscillator: oscillator,
