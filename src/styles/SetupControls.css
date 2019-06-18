@@ -1,6 +1,6 @@
-#save-button {
-    /*background-color: #E0E1E2;*/
+#save-button, #delete-button {
+    margin: 2.5px
 }
-#save-button *{
+#save-button *, #delete-button *{
     color: #5B5B5B;
 }

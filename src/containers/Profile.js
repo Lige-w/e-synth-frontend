@@ -47,6 +47,24 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
         }
     }
 
+    const destroyPadSetup = () => {
+        if (Fetch.token) {
+            Fetch.DESTROY(`${Fetch.SETUPS_URL}/${selectedSetup.id}`, Fetch.token)
+                .then(({message}) => {
+
+                    if (!!selectedSetup.id) {
+                        const setupIndex = setups.findIndex(userSetup => selectedSetup.id === userSetup.id)
+                        const setupsCopy = [...setups]
+                        setupsCopy.splice(setupIndex, 1)
+                        setCurrentUser({...user, setups: setupsCopy})
+                    }
+                    setPadsAttributes(null)
+                    setSelectedSetup(null)
+                    alert(message)
+                })
+        }
+    }
+
     const userSetupLinks = setups.map(setup => (
         <Button key={setup.id} onClick={() => {
             setSelectedSetup(setup)
@@ -72,7 +90,15 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
                 </Modal.Content>
             </Modal>
             {userSetupLinks}
-            {selectedSetup ? <UserSetup setup={selectedSetup} padsAttributes={padsAttributes} setPadsAttributes={setPadsAttributes} savePadSetup={savePadSetup} /> : null}
+            {selectedSetup ?
+                <UserSetup
+                    setup={selectedSetup}
+                    padsAttributes={padsAttributes}
+                    setPadsAttributes={setPadsAttributes}
+                    savePadSetup={savePadSetup}
+                    destroyPadSetup={destroyPadSetup}
+                />
+                    : null}
         </div>
     )
 }

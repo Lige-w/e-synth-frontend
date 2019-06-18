@@ -54,6 +54,18 @@ class Fetch {
             .then(resp => resp.json())
     }
 
+    static DESTROY(url, token) {
+        return fetch(url, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type" :"application/json",
+                "Accept" :"application/json",
+                "Authentication" : `Bearer ${token}`
+            }
+        })
+            .then(resp => resp.json())
+    }
+
 }
 
 export default Fetch

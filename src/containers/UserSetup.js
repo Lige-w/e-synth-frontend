@@ -7,7 +7,8 @@ import MasterControls from './MasterControls'
 import SetupControls from '../components/SetupControls'
 import Audio from '../helpers/Audio'
 
-const UserSetup = ({setup, padsAttributes, setPadsAttributes, savePadSetup}) =>  {
+const UserSetup = ({setup, padsAttributes, setPadsAttributes, savePadSetup, destroyPadSetup}) =>  {
+
 
     const [pads, setPads] = useState([])
     const [masterGain, setMasterGain] = useState(.5)
@@ -37,13 +38,12 @@ const UserSetup = ({setup, padsAttributes, setPadsAttributes, savePadSetup}) => 
                 setPads={setPads}
                 padsAttributes={padsAttributes}
                 setPadsAttributes={setPadsAttributes}
-                savePadSetup={savePadSetup}
             />
             <MasterControls
                 masterGain={masterGain}
                 setMasterGain={changeMasterGain}
             />
-            <SetupControls savePadSetup={savePadSetup} />
+            <SetupControls savePadSetup={savePadSetup} destroyPadSetup={destroyPadSetup} />
         </div>
     )
 }
