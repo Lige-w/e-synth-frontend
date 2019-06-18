@@ -6,6 +6,7 @@ import './App.css';
 import Profile from './containers/Profile'
 import Login from './containers/Login'
 import Register from './containers/Register'
+import UserSetup from './containers/UserSetup'
 import Fetch from './helpers/Fetch'
 
 
@@ -58,6 +59,15 @@ const App = () => {
                     <Profile {...routerProps} addUserSetup={addUserSetup} user={currentUser} setCurrentUser={setCurrentUser} />
                 )} /> :
                 <Redirect to='/login' />}
+            <Route exact path={`/setups/:id`} render={(props) => {
+                const setupId = props.match.params.id
+                return <UserSetup
+                    setup={currentUser.setups.find(s => s.id === parseInt(setupId))}
+                    user={currentUser}
+                    setUser={setCurrentUser}
+                />
+            }}
+            />
         </Switch>
     )
 }

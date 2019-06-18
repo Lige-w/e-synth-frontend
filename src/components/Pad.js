@@ -1,8 +1,7 @@
-import React, {useEffect, useState, Fragment} from 'react'
+import React, {useEffect, useState} from 'react'
 import Audio from '../helpers/Audio'
 import {Button, Icon, Select} from 'semantic-ui-react'
 import OscillatorControls from './OscillatorControls'
-import Fetch from "../helpers/Fetch";
 
 const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, index, deletePad}) => {
 
@@ -167,15 +166,15 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
         }
     }
 
+
     const handleKeyDown = (e) => {
         if (e.key === keyName) {play()}
-
     }
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown)
         return () => {window.removeEventListener('keydown', handleKeyDown)}
-    }, [handleKeyDown])
+    })
 
     const pause = () => {
         if(isPlaying) {
@@ -184,6 +183,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
         }
     }
 
+
     const handleKeyUp = (e) => {
         if (e.key === keyName) {pause()}
     }
@@ -191,13 +191,13 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
     useEffect(() => {
         window.addEventListener('keyup', handleKeyUp)
         return () => {window.removeEventListener('keyup', handleKeyUp)}
-    }, [handleKeyUp])
+    })
 
 
 
     return (
 
-            <div className='pad' >
+            <div className={`pad ${isPlaying ? 'glow' : ''}`} >
                 <Icon className='delete-pad' name='delete' onClick={() => deletePad(index)}/>
                 <Button className='new-oscillator' onClick={addOscillator} >New Oscillator</Button>
                 <Button className='key-select' onClick={allowKeyTriggerChange}>Key: {keyName}</Button>

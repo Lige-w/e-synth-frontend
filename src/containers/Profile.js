@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from 'react'
+import React, { useState } from 'react'
 import {Switch, Link, Route, Redirect} from "react-router-dom"
 import {Modal, Button, Form} from "semantic-ui-react";
 
@@ -7,9 +7,9 @@ import UserSetup from "./UserSetup";
 
 const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, setups}} ) => {
 
-    const [selectedSetup, setSelectedSetup] = useState(null)
+    // const [selectedSetup, setSelectedSetup] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [padsAttributes, setPadsAttributes] = useState([])
+    // const [padsAttributes, setPadsAttributes] = useState([])
 
     const createNewSetup = (e) => {
         const body = {
@@ -20,56 +20,21 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
             Fetch.authPOST(Fetch.SETUPS_URL, body, localStorage['token'])
                 .then(setup => {
                     addUserSetup(setup)
-                    setSelectedSetup(setup)
-                    setPadsAttributes(setup.pads)
                     setIsModalOpen(false)
+                    return <Redirect to={`/setups/${setup.id}`} />
                 })
         } else {
             alert('Please log in to continue')
         }
     }
 
-    const savePadSetup = () => {
-        const body = {pads_attributes: padsAttributes}
-        if (Fetch.token) {
-            Fetch.PATCH(`${Fetch.SETUPS_URL}/${selectedSetup.id}`, body)
-                .then(setup => {
-                    setSelectedSetup(setup)
-                    setPadsAttributes(setup.pads)
 
-                    const setupIndex = setups.findIndex(userSetup => userSetup.id === setup.id)
-                    const setupsCopy = [...setups]
-                    setupsCopy.splice(setupIndex, 1, setup)
-                    setCurrentUser({...user, setups: setupsCopy})
-                })
-        } else {
-            alert('Please log in to continue')
-        }
-    }
-
-    const destroyPadSetup = () => {
-        if (Fetch.token) {
-            Fetch.DESTROY(`${Fetch.SETUPS_URL}/${selectedSetup.id}`, Fetch.token)
-                .then(({message}) => {
-
-                    if (!!selectedSetup.id) {
-                        const setupIndex = setups.findIndex(userSetup => selectedSetup.id === userSetup.id)
-                        const setupsCopy = [...setups]
-                        setupsCopy.splice(setupIndex, 1)
-                        setCurrentUser({...user, setups: setupsCopy})
-                    }
-                    setPadsAttributes(null)
-                    setSelectedSetup(null)
-                    alert(message)
-                })
-        }
-    }
 
     const userSetupLinks = setups.map(setup => (
-        <Button key={setup.id} onClick={() => {
-            setSelectedSetup(setup)
-            setPadsAttributes(setup.pads)
+        <Link key={`id-${setup.id}`} to={`/setups/${setup.id}`}>
+            <Button  onClick={() => {
         }}>{setup.name}</Button>
+        </Link>
     ))
 
 
@@ -90,17 +55,7 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
                 </Modal.Content>
             </Modal>
             {userSetupLinks}
-            {selectedSetup ?
-                <UserSetup
-                    setup={selectedSetup}
-                    padsAttributes={padsAttributes}
-                    setPadsAttributes={setPadsAttributes}
-                    savePadSetup={savePadSetup}
-                    destroyPadSetup={destroyPadSetup}
-                    user={user}
-                    setUser={setCurrentUser}
-                />
-                    : null}
+
         </div>
     )
 }

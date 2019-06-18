@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Icon } from 'semantic-ui-react'
 import Pad from '../components/Pad'
 import Audio from '../helpers/Audio'
 import Fetch from "../helpers/Fetch";
 
-const PadContainer = ({setup, pads, setPads, padsAttributes, setPadsAttributes, setUser, user}) => {
+const PadContainer = ({setup, pads, setPads, user, setUser}) => {
 
 
 
 
     const initializeSavedPads = () => {
-        if(padsAttributes) {
-            const savedPads = padsAttributes.map(pad => {
+
+        if(setup.pads) {
+            const savedPads = setup.pads.map(pad => {
                 const thisAttackGain = attackGain()
 
                 const gainNode = Audio.context.createGain()
@@ -34,13 +35,14 @@ const PadContainer = ({setup, pads, setPads, padsAttributes, setPadsAttributes, 
         return attackGain
     }
 
-    // useEffect(()=>{
-    //     initializeSavedPads()
-    //     return pads.forEach(pad => {
-    //         pad.pad.disconnect()
-    //         pad.attackGain.disconnect()
-    //     })
-    // }, [])
+    const setPadsAttributes = (attributes) => {
+        const userCopy = {...user}
+        const setupIndex = user.setups.findIndex(s => setup.id === s.id)
+
+        userCopy.setups[setupIndex].pads = attributes
+
+        setUser(userCopy)
+    }
 
     const createPad = () => {
         const thisAttackGain = attackGain()
@@ -51,7 +53,7 @@ const PadContainer = ({setup, pads, setPads, padsAttributes, setPadsAttributes, 
 
         setPads([...pads, {pad: gainNode, attackGain: thisAttackGain}])
 
-        setPadsAttributes([...padsAttributes, {
+        setPadsAttributes([...setup.pads, {
             gain: gainNode.gain.value,
             key_name: 'a',
             oscillators_attributes: []
@@ -59,19 +61,19 @@ const PadContainer = ({setup, pads, setPads, padsAttributes, setPadsAttributes, 
     }
 
     const deletePad = (index) => {
-        const padId = padsAttributes[index].id
+        const padId = setup.pads[index].id
         if (Fetch.token && padId) {
             Fetch.DESTROY(`${Fetch.PADS_URL}/${padId}`, Fetch.token)
                 .then(({message}) => {
-                    const padsAttributesCopy = [...padsAttributes]
+                    const setupPadsCopy = [...setup.pads]
                     const padsCopy = [...pads]
                     padsCopy.splice(index, 1)
-                    padsAttributesCopy.splice(index, 1)
+
 
                     setPads(padsCopy)
-                    setPadsAttributes(padsAttributesCopy)
 
-                    const setupCopy = {...setup, pads: padsAttributesCopy}
+
+                    const setupCopy = {...setup, pads: setupPadsCopy}
                     const setupsCopy = [...user.setups]
                     const setupIndex = setupsCopy.findIndex(s => s.id === setup.id)
                     setupsCopy.splice(setupIndex, 1, setupCopy)
@@ -79,13 +81,9 @@ const PadContainer = ({setup, pads, setPads, padsAttributes, setPadsAttributes, 
                     setUser({...user, setups: setupsCopy})
                 })
         } else {
-            const padsAttributesCopy = [...padsAttributes]
             const padsCopy = [...pads]
             padsCopy.splice(index, 1)
-            padsAttributesCopy.splice(index, 1)
-
             setPads(padsCopy)
-            setPadsAttributes(padsAttributesCopy)
         }
     }
 
@@ -93,11 +91,11 @@ const PadContainer = ({setup, pads, setPads, padsAttributes, setPadsAttributes, 
         <Pad
             key={i}
             pad={pad}
+            padsAttributes={setup.pads}
             pads={pads}
-            padsAttributes={padsAttributes}
-            setPadsAttributes={setPadsAttributes}
             deletePad={deletePad}
             index={i}
+            setPadsAttributes={setPadsAttributes}
         />
     ))
 

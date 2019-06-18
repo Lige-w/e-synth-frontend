@@ -1,17 +1,19 @@
-import React, {Fragment, useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
+import {Redirect} from 'react-router-dom'
 
-import Fetch from '../helpers/Fetch'
 
 import PadContainer from './PadContainer'
 import MasterControls from './MasterControls'
 import SetupControls from '../components/SetupControls'
 import Audio from '../helpers/Audio'
+import Fetch from "../helpers/Fetch";
 
-const UserSetup = ({setup, padsAttributes, setPadsAttributes, savePadSetup, destroyPadSetup, setUser, user}) =>  {
+const UserSetup = ({user, user: {username, setups}, setUser, setup}) =>  {
 
 
     const [pads, setPads] = useState([])
     const [masterGain, setMasterGain] = useState(.5)
+    const [profileRedirect, setProfileRedirect] = useState(false)
 
     const initializeSetup = () => {
         Audio.masterGainNode.connect(Audio.context.destination)
@@ -28,7 +30,47 @@ const UserSetup = ({setup, padsAttributes, setPadsAttributes, savePadSetup, dest
         setMasterGain(Audio.masterGainNode.gain.value)
     }
 
+    const savePadSetup = () => {
+        const body = {pads_attributes: setup.pads}
+        if (Fetch.token) {
+            Fetch.PATCH(`${Fetch.SETUPS_URL}/${setup.id}`, body)
+                .then(UpdatedSetup => {
+                    const setupIndex = setups.findIndex(userSetup => userSetup.id === UpdatedSetup.id)
+                    const setupsCopy = [...setups]
+                    setupsCopy.splice(setupIndex, 1, UpdatedSetup)
+                    setUser({...user, setups: setupsCopy})
+                })
+        } else {
+            alert('Please log in to continue')
+        }
+    }
 
+    const destroyPadSetup = () => {
+        if (Fetch.token) {
+            Fetch.DESTROY(`${Fetch.SETUPS_URL}/${setup.id}`, Fetch.token)
+                .then(({message}) => {
+
+                    if (!!setup.id) {
+                        const setupIndex = setups.findIndex(userSetup => setup.id === userSetup.id)
+                        const setupsCopy = [...setups]
+                        setupsCopy.splice(setupIndex, 1)
+                        setUser({...user, setups: setupsCopy})
+                        setProfileRedirect(true)
+                    }
+
+
+                })
+        }
+    }
+
+
+    if (!setup) {
+        if (profileRedirect) {
+            return <Redirect to={`/${username}`}/>
+        } else {
+            return null
+        }
+    }
 
     return (
         <div id='synth-view'>
@@ -36,8 +78,6 @@ const UserSetup = ({setup, padsAttributes, setPadsAttributes, savePadSetup, dest
                 setup={setup}
                 pads={pads}
                 setPads={setPads}
-                padsAttributes={padsAttributes}
-                setPadsAttributes={setPadsAttributes}
                 user={user}
                 setUser={setUser}
             />
