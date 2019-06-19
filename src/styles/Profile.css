@@ -9,9 +9,16 @@
     height: 120px;
 }
 
+#profile #logout {
+    width: initial;
+    height: initial;
+    float: right;
+}
+
 #setup-links {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     padding: 0 50px;
 }
 

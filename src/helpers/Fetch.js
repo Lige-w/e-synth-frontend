@@ -6,7 +6,7 @@ class Fetch {
     static SETUPS_URL = 'http://localhost:3000/api/v1/setups'
     static PADS_URL = 'http://localhost:3000/api/v1/pads'
 
-    static token = localStorage.getItem('token')
+    static token() {return localStorage.getItem('token')}
 
     static POST(url, body) {
         return fetch(url, {
@@ -35,7 +35,7 @@ class Fetch {
             headers: {
                 "Content-Type" :"application/json",
                 "Accept" :"application/json",
-                "Authentication" : `Bearer ${Fetch.token}`
+                "Authentication" : `Bearer ${Fetch.token()}`
             },
             body: JSON.stringify(body)
         })

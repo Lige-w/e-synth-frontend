@@ -62,8 +62,8 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
 
     const deletePad = (index) => {
         const padId = setup.pads[index].id
-        if (Fetch.token && padId) {
-            Fetch.DESTROY(`${Fetch.PADS_URL}/${padId}`, Fetch.token)
+        if (Fetch.token() && padId) {
+            Fetch.DESTROY(`${Fetch.PADS_URL}/${padId}`, Fetch.token())
                 .then(({message}) => {
                     const setupPadsCopy = [...setup.pads]
                     const padsCopy = [...pads]

@@ -8,8 +8,8 @@ import UserSetup from "./UserSetup";
 const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, setups}} ) => {
 
     // const [selectedSetup, setSelectedSetup] = useState(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
     const [setupPageRedirect, setSetupPageRedirect] = useState(null)
+    const [logoutRedirect, setLogoutRedirect] = useState(false)
     // const [padsAttributes, setPadsAttributes] = useState([])
 
     const createNewSetup = (e) => {
@@ -21,7 +21,6 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
             Fetch.authPOST(Fetch.SETUPS_URL, body, localStorage['token'])
                 .then(setup => {
                     addUserSetup(setup)
-                    setIsModalOpen(false)
                     setSetupPageRedirect(setup.id)
                 })
         } else {
@@ -29,7 +28,11 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
         }
     }
 
-
+    const logout = () => {
+        localStorage.removeItem('token')
+        setCurrentUser(null)
+        setLogoutRedirect(true)
+    }
 
     const userSetupLinks = setups.map(setup => (
         <Link key={`id-${setup.id}`} to={`/setups/${setup.id}`}>
@@ -41,11 +44,13 @@ const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, s
         </Link>
     ))
 
+    if (logoutRedirect) {return <Redirect to='/' />}
 
     if (setupPageRedirect) {return <Redirect to={`/setups/${setupPageRedirect}`} />}
 
     return(
         <div id='profile'>
+            <Button id='logout' onClick={logout}>Log out</Button>
             <h1 id="profile-title">Hi {username}!</h1>
             <div id="setup-links">
                 <Modal size="tiny" centered={false} trigger={

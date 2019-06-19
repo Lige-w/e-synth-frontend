@@ -32,7 +32,7 @@ const UserSetup = ({user, user: {username, setups}, setUser, setup}) =>  {
 
     const savePadSetup = () => {
         const body = {pads_attributes: setup.pads}
-        if (Fetch.token) {
+        if (Fetch.token()) {
             Fetch.PATCH(`${Fetch.SETUPS_URL}/${setup.id}`, body)
                 .then(UpdatedSetup => {
                     const setupIndex = setups.findIndex(userSetup => userSetup.id === UpdatedSetup.id)
@@ -46,8 +46,8 @@ const UserSetup = ({user, user: {username, setups}, setUser, setup}) =>  {
     }
 
     const destroyPadSetup = () => {
-        if (Fetch.token) {
-            Fetch.DESTROY(`${Fetch.SETUPS_URL}/${setup.id}`, Fetch.token)
+        if (Fetch.token()) {
+            Fetch.DESTROY(`${Fetch.SETUPS_URL}/${setup.id}`, Fetch.token())
                 .then(({message}) => {
 
                     if (!!setup.id) {

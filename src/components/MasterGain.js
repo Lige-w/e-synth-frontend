@@ -4,7 +4,7 @@ const MasterGain = ({masterGain, setMasterGain}) => {
 
     return (
         <div id='master-gain'>
-            <p>Master Gain: {Math.round(masterGain*100)}</p>
+            <h2>Master Gain: {Math.round(masterGain*100)}</h2>
             <input
                 type="range"
                 min='0'

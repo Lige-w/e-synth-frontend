@@ -78,6 +78,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
         const oscillator = Audio.context.createOscillator()
         const oscillatorGain = Audio.context.createGain()
         oscillatorGain.gain.value = .5
+        oscillator.frequency.value = 0
         oscillator.connect(oscillatorGain)
         oscillatorGain.connect(pad)
         oscillator.start(0)
