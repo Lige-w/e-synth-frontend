@@ -3,10 +3,10 @@ import Audio from '../helpers/Audio'
 import {Button, Icon, Select} from 'semantic-ui-react'
 import OscillatorControls from './OscillatorControls'
 
-const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, index, deletePad}) => {
+const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, deletePad}) => {
 
     const [keyName, setKeyName] = useState('a')
-    const [gain, setGain] = useState(pad.gain.value)
+    const [gain, setGain] = useState(.5)
     const [oscillators, setOscillators] = useState([])
     const [selectedOscillator, setSelectedOscillator] = useState(null)
     const [isPlaying, setIsPlaying] = useState(false)
@@ -64,9 +64,9 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
     }
 
     const setPadGain = (e) => {
-        pad.gain.value = e.target.value/100
-        changePadGainAttribute(pad.gain.value)
-        setGain(pad.gain.value)
+        // pad.gain.value = e.target.value/100
+        changePadGainAttribute(e.target.value/100)
+        setGain(e.target.value/100)
     }
 
     const changePadGainAttribute = (gain) => {
@@ -162,7 +162,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
 
     const play = () => {
         if(!isPlaying) {
-            attackGain.gain.setTargetAtTime(1, Audio.context.currentTime, 0.001)
+           pad.gain.setTargetAtTime(gain, Audio.context.currentTime, 0.001)
             setIsPlaying(true)
         }
     }
@@ -179,7 +179,7 @@ const Pad = ({pad: {pad, attackGain}, pads, padsAttributes, setPadsAttributes, i
 
     const pause = () => {
         if(isPlaying) {
-            attackGain.gain.setTargetAtTime(0, Audio.context.currentTime, 0.001)
+            pad.gain.setTargetAtTime(0, Audio.context.currentTime, 0.001)
             setIsPlaying(false)
         }
     }

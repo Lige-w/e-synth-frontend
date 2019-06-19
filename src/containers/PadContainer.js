@@ -13,13 +13,13 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
 
         if(setup.pads) {
             const savedPads = setup.pads.map(pad => {
-                const thisAttackGain = attackGain()
+                // const thisAttackGain = attackGain()
 
                 const gainNode = Audio.context.createGain()
-                gainNode.gain.value = pad.gain
-                gainNode.connect(thisAttackGain)
+                gainNode.gain.value = 0
+                gainNode.connect(Audio.masterGainNode)
 
-                return {pad: gainNode, attackGain: thisAttackGain}
+                return {pad: gainNode}
             })
 
             setPads(savedPads)
@@ -45,13 +45,13 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
     }
 
     const createPad = () => {
-        const thisAttackGain = attackGain()
+        // const thisAttackGain = attackGain()
 
         const gainNode = Audio.context.createGain()
-        gainNode.gain.value = .5
-        gainNode.connect(thisAttackGain)
+        gainNode.gain.value = 0
+        gainNode.connect(Audio.masterGainNode)
 
-        setPads([...pads, {pad: gainNode, attackGain: thisAttackGain}])
+        setPads([...pads, {pad: gainNode}])
 
         setPadsAttributes([...setup.pads, {
             gain: gainNode.gain.value,
