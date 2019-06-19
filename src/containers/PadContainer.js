@@ -28,13 +28,6 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
 
     useEffect(initializeSavedPads, [setup])
 
-    const attackGain = () => {
-        const attackGain = Audio.context.createGain()
-        attackGain.gain.value = 0
-        attackGain.connect(Audio.masterGainNode)
-        return attackGain
-    }
-
     const setPadsAttributes = (attributes) => {
         const userCopy = {...user}
         const setupIndex = user.setups.findIndex(s => setup.id === s.id)
@@ -45,7 +38,7 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
     }
 
     const createPad = () => {
-        // const thisAttackGain = attackGain()
+
 
         const gainNode = Audio.context.createGain()
         gainNode.gain.value = 0
