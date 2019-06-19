@@ -16,11 +16,11 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
 
         const savedOscillators = padsAttributes[index].oscillators_attributes.map((oscillatorAttributes, i) => {
             const oscillatorGain = Audio.context.createGain()
-            oscillatorGain.gain.value = oscillatorAttributes.gain
+            oscillatorGain.gain.setValueAtTime(oscillatorAttributes.gain, Audio.context.currentTime)
             oscillatorGain.connect(pad)
 
             const oscillator = Audio.context.createOscillator()
-            oscillator.frequency.value = oscillatorAttributes.frequency
+            oscillator.frequency.setValueAtTime(oscillatorAttributes.frequency, Audio.context.currentTime)
             oscillator.type = oscillatorAttributes.wave_type
             oscillator.connect(oscillatorGain)
             oscillator.start(0)
@@ -30,9 +30,9 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
                 text: `oscillator-${i + 1}`,
                 value: `oscillator-${i + 1}`,
                 oscillator: oscillator,
-                frequency: oscillator.frequency.value,
+                frequency: oscillatorAttributes.frequency,
                 gainNode: oscillatorGain,
-                gain: oscillatorGain.gain.value,
+                gain: oscillatorAttributes.gain,
                 type: oscillator.type
             }
         })
@@ -64,7 +64,7 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
     }
 
     const setPadGain = (e) => {
-        // pad.gain.value = e.target.value/100
+        // pad.gain.setValueAtTime(e.target.value/100, Audio.context.currentTime)
         changePadGainAttribute(e.target.value/100)
         setGain(e.target.value/100)
     }
@@ -77,8 +77,8 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
     const addOscillator = () => {
         const oscillator = Audio.context.createOscillator()
         const oscillatorGain = Audio.context.createGain()
-        oscillatorGain.gain.value = .5
-        oscillator.frequency.value = 0
+        oscillatorGain.gain.setValueAtTime(.5, Audio.context.currentTime)
+        oscillator.frequency.setValueAtTime(0, Audio.context.currentTime)
         oscillator.connect(oscillatorGain)
         oscillatorGain.connect(pad)
         oscillator.start(0)
@@ -88,7 +88,7 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
             text: `oscillator-${oscillators.length + 1}`,
             value: `oscillator-${oscillators.length + 1}`,
             oscillator: oscillator,
-            frequency: oscillator.frequency.value,
+            frequency: 0,
             gainNode: oscillatorGain,
             gain: oscillatorGain.gain.value,
             type: oscillator.type
@@ -117,7 +117,7 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
         if (value > 8000) {value = 8000}
 
         setSelectedOscillator({...selectedOscillator, frequency: value})
-        selectedOscillator.oscillator.frequency.setValueAtTime(value, Audio.context.currentTime)
+        selectedOscillator.oscillator.frequency.gain.setValueAtTime(value, Audio.context.currentTime)
 
     }
 
@@ -127,7 +127,7 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
     }
 
     const changeSelectedOscillatorGain = (e) => {
-        selectedOscillator.gainNode.gain.value = e.target.value/100
+        selectedOscillator.gainNode.gain.setValueAtTime(e.target.value/100, Audio.context.currentTime)
         setSelectedOscillator({...selectedOscillator, gain: selectedOscillator.gainNode.gain.value})
     }
 

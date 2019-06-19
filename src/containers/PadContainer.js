@@ -14,7 +14,7 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
         if(setup.pads) {
             const savedPads = setup.pads.map(pad => {
                 const gainNode = Audio.context.createGain()
-                gainNode.gain.value = 0
+                gainNode.gain.setValueAtTime(0, Audio.context.currentTime)
                 gainNode.connect(Audio.masterGainNode)
                 return {pad: gainNode}
             })
@@ -36,7 +36,7 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
 
 
         const gainNode = Audio.context.createGain()
-        gainNode.gain.value = 0
+        gainNode.gain.setValueAtTime(0, Audio.context.currentTime)
         gainNode.connect(Audio.masterGainNode)
 
         setPads([...pads, {pad: gainNode}])

@@ -24,6 +24,7 @@ const Login = ({setCurrentUser}) => {
                     alert('Incorrect username or password')
                 }
             })
+            .catch(console.log)
     }
 
     return (

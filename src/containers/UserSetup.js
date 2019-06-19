@@ -17,15 +17,15 @@ const UserSetup = ({user, user: {username, setups}, setUser, setup}) =>  {
 
     const initializeSetup = () => {
         Audio.masterGainNode.connect(Audio.context.destination)
-        Audio.masterGainNode.gain.value = .5
-        setMasterGain(Audio.masterGainNode.gain.value)
+        Audio.masterGainNode.gain.setValueAtTime( .5, Audio.context.currentTime)
+        setMasterGain(.5)
     }
 
     useEffect(initializeSetup, [])
 
     const changeMasterGain = (e) => {
-        Audio.masterGainNode.gain.value = e.target.value/100
-        setMasterGain(Audio.masterGainNode.gain.value)
+        Audio.masterGainNode.gain.setValueAtTime( e.target.value/100, Audio.context.currentTime)
+        setMasterGain(e.target.value/100)
     }
 
     const savePadSetup = () => {
