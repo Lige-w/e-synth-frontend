@@ -3,7 +3,7 @@ class Audio {
 
     static masterGainNode = Audio.context.createGain()
 
-    static distortionNode = Audio.context.createWaveShaper()
+    static compressor = Audio.context.createDynamicsCompressor()
 }
 
 export default Audio

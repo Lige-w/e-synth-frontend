@@ -1,16 +1,14 @@
 import React, { useState } from 'react'
-import {Switch, Link, Route, Redirect} from "react-router-dom"
+import { Link, Redirect} from "react-router-dom"
 import {Modal, Button, Form, Icon} from "semantic-ui-react";
 
 import Fetch from '../helpers/Fetch'
-import UserSetup from "./UserSetup";
+
 
 const Profile = ( {setCurrentUser, match, addUserSetup, user, user: {username, setups}} ) => {
 
-    // const [selectedSetup, setSelectedSetup] = useState(null)
     const [setupPageRedirect, setSetupPageRedirect] = useState(null)
     const [logoutRedirect, setLogoutRedirect] = useState(false)
-    // const [padsAttributes, setPadsAttributes] = useState([])
 
     const createNewSetup = (e) => {
         const body = {

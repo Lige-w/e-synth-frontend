@@ -13,15 +13,11 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
 
         if(setup.pads) {
             const savedPads = setup.pads.map(pad => {
-                // const thisAttackGain = attackGain()
-
                 const gainNode = Audio.context.createGain()
                 gainNode.gain.value = 0
                 gainNode.connect(Audio.masterGainNode)
-
                 return {pad: gainNode}
             })
-
             setPads(savedPads)
         }
     }
@@ -33,7 +29,6 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
         const setupIndex = user.setups.findIndex(s => setup.id === s.id)
 
         userCopy.setups[setupIndex].pads = attributes
-
         setUser(userCopy)
     }
 
@@ -62,16 +57,12 @@ const PadContainer = ({setup, pads, setPads, user, setUser}) => {
                     const padsCopy = [...pads]
                     padsCopy.splice(index, 1)
                     setupPadsCopy.splice(index, 1)
-
-
                     setPads(padsCopy)
-
 
                     const setupCopy = {...setup, pads: setupPadsCopy}
                     const setupsCopy = [...user.setups]
                     const setupIndex = setupsCopy.findIndex(s => s.id === setup.id)
                     setupsCopy.splice(setupIndex, 1, setupCopy)
-
                     setUser({...user, setups: setupsCopy})
                 })
         } else {

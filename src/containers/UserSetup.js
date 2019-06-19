@@ -21,9 +21,7 @@ const UserSetup = ({user, user: {username, setups}, setUser, setup}) =>  {
         setMasterGain(Audio.masterGainNode.gain.value)
     }
 
-
     useEffect(initializeSetup, [])
-    // useEffect(() => setPadsAttributes(setup.pads), [setup])
 
     const changeMasterGain = (e) => {
         Audio.masterGainNode.gain.value = e.target.value/100

@@ -226,8 +226,6 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
                 <Button className="play-button" positive onMouseDown={play} onMouseUp={pause} onDrop={pause} >
                     <Icon name="play"/>
                 </Button>
-                {/*<div className='gain-container'>*/}
-                {/*<p className='pad-label'>Gain: {Math.round(gain*100)}</p>*/}
                 <input
                     className="gain-slider"
                     type="range"
@@ -236,7 +234,6 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
                     value={gain*100}
                     onChange={setPadGain}
                 />
-                {/*</div>*/}
         </div>
     );
 }
