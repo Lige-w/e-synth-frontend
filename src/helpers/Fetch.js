@@ -1,10 +1,11 @@
 class Fetch {
-
-    static LOGIN_URL = 'http://localhost:3000/api/v1/login'
-    static AUTH_URL = 'http://localhost:3000/api/v1/profile'
-    static USERS_URL = 'http://localhost:3000/api/v1/users'
-    static SETUPS_URL = 'http://localhost:3000/api/v1/setups'
-    static PADS_URL = 'http://localhost:3000/api/v1/pads'
+    // static URL = 'http://localhost:3000'
+    static URL = 'https://mysynthapi.herokuapp.com/'
+    static LOGIN_URL = this.URL + '/api/v1/login'
+    static AUTH_URL = this.URL + '/api/v1/profile'
+    static USERS_URL = this.URL + '/api/v1/users'
+    static SETUPS_URL = this.URL + '/api/v1/setups'
+    static PADS_URL = this.URL + '/api/v1/pads'
 
     static token() {return localStorage.getItem('token')}
 

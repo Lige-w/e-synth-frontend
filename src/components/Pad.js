@@ -90,7 +90,7 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
             oscillator: oscillator,
             frequency: 0,
             gainNode: oscillatorGain,
-            gain: oscillatorGain.gain.value,
+            gain: .5,
             type: oscillator.type
         }
         setOscillators([...oscillators, oscillatorObject])
@@ -117,7 +117,7 @@ const Pad = ({pad: {pad}, pads, padsAttributes, setPadsAttributes, index, delete
         if (value > 8000) {value = 8000}
 
         setSelectedOscillator({...selectedOscillator, frequency: value})
-        selectedOscillator.oscillator.frequency.gain.setValueAtTime(value, Audio.context.currentTime)
+        selectedOscillator.oscillator.frequency.setValueAtTime(value, Audio.context.currentTime)
 
     }
 
