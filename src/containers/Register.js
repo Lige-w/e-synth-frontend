@@ -48,7 +48,6 @@ const Register = ({setCurrentUser}) => {
                 <input type="password" onChange={e => setConfirmPassword(e.target.value)}/>
             </Form.Field>
             <Button type='submit'>Register</Button>
-                Already have an account?
             <Link to='/login'>Already have an account? Log In</Link>
         </Form>
     )
