@@ -30,6 +30,7 @@ const Login = ({setCurrentUser}) => {
     return (
         <Form onSubmit={handleLoginSubmit}>
             <h1>MySYNTH</h1>
+            <h3>Login</h3>
             <Form.Field>
                 <label>Username</label>
                 <input type="text" onChange={e => setUsername(e.target.value)}/>
