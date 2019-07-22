@@ -29,7 +29,7 @@ const Login = ({setCurrentUser}) => {
 
     return (
         <Form onSubmit={handleLoginSubmit}>
-            <h1>Login!</h1>
+            <h1>MySYNTH</h1>
             <Form.Field>
                 <label>Username</label>
                 <input type="text" onChange={e => setUsername(e.target.value)}/>
@@ -39,8 +39,7 @@ const Login = ({setCurrentUser}) => {
                 <input type="password" onChange={e => setPassword(e.target.value)}/>
             </Form.Field>
             <Button type='submit'>Log In</Button>
-            <p>Don't have an account?</p>
-            <Link to='/register'><Button>Register</Button></Link>
+            <Link to='/register'>Don't have an account? Register</Link>
         </Form>
     )
 }

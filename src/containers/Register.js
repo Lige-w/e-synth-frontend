@@ -33,7 +33,8 @@ const Register = ({setCurrentUser}) => {
     return (
 
         <Form onSubmit={handleRegisterSubmit}>
-            <h1>Register</h1>
+            <h1>MySYNTH</h1>
+            <h3>Register</h3>
             <Form.Field>
                 <label>Username</label>
                 <input type="text" onChange={e => setUsername(e.target.value)}/>
@@ -47,8 +48,8 @@ const Register = ({setCurrentUser}) => {
                 <input type="password" onChange={e => setConfirmPassword(e.target.value)}/>
             </Form.Field>
             <Button type='submit'>Register</Button>
-                <p>Already have an account?</p>
-            <Link to='/login'><Button>Log In</Button></Link>
+                Already have an account?
+            <Link to='/login'>Already have an account? Log In</Link>
         </Form>
     )
 }
