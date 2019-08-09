@@ -1,6 +1,6 @@
 class Fetch {
-    // static URL = 'http://localhost:3000'
-    static URL = 'https://mysynthapi.herokuapp.com'
+    static URL = 'http://localhost:3000'
+    // static URL = 'https://mysynthapi.herokuapp.com'
     static LOGIN_URL = this.URL + '/api/v1/login'
     static AUTH_URL = this.URL + '/api/v1/profile'
     static USERS_URL = this.URL + '/api/v1/users'
